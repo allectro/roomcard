@@ -1,0 +1,122 @@
+<article class="room-card" [ngClass]="{opened: dropdownIsOpened}">
+    <section class="room-card__container" [ngClass]="{opened: dropdownIsOpened}">
+        <div class="room-card__gallery">
+            <swiper [slidesPerView]="horizontal ? 1 : 1.2" [spaceBetween]="8" [navigation]="true">
+                <ng-template swiperSlide *ngFor="let image of roomCardInfo.gallery; let i = index">
+                    <img class="room-card__image" [src]="image" alt="room preview">
+                </ng-template>
+            </swiper>
+            <button (click)="openImageViewer()" class="room-card__zoom"></button>
+        </div>
+        <div class="room-card__info-wrap">
+            <div class="room-card__main">
+                <h3 class="room-card__title">{{roomCardInfo[_language].accommodationType}}</h3>
+                    <div class="room-card__advantages">
+                        <p class="room-card__text" [ngClass]="{opened: dropdownIsOpened && horizontal}">
+                            {{roomCardInfo[_language].description}}
+                        </p>
+                        <ng-container *ngIf="!dropdownIsOpened && horizontal || !horizontal">
+                            <ng-container *ngFor="let group of roomCardInfo[_language].facilities; let i = index" >
+                                <ng-container *ngIf="group.group === 'main'">
+                                    <p *ngFor="let facilitiy of group.list; let i = index" class="room-card__advantage">
+                                        <img [src]="facilitiy.img" alt="">
+                                        <span>{{facilitiy.desc}}</span>
+                                    </p>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+            </div>
+            <div class="room-card__footer">
+                <div>
+                    <p class="room-card__price">{{'from' | translate}} {{currency === 'usd' ? (roomCardInfo.priceFrom[currency] | currency): (roomCardInfo.priceFrom[currency] | currency: 'RUB')}}</p>
+                    <p class="room-card__duration">
+                        <span [ngSwitch]="nights">
+                            {{nights}} 
+                            <ng-template ngSwitchCase="1">{{"night" | translate}}</ng-template>
+                            <ng-template ngSwitchDefault>{{"nights" | translate}}</ng-template>
+                        </span>,
+                        <span [ngSwitch]="guests">
+                            {{guests}}
+                            <ng-template ngSwitchCase="1">{{"guest" | translate}}</ng-template>
+                            <ng-template ngSwitchDefault>{{"guestsOf" | translate}}</ng-template>
+                        </span>
+                    </p>
+                    <p class="room-card__occupied">Не доступен на текущую дату</p>
+                </div>
+                <div *ngIf="!choosing; else choosingButtons">
+                    <a [routerLink]="['/item', roomCardInfo.id]" [queryParams]="roomCardInfo.availible ? searchQueryParams : _searchAvailibleQueryParams" [ngClass]="{'room-card__available': !roomCardInfo.availible}" class="room-card__choose">{{roomCardInfo.availible ? ("tarifs" | translate) : (roomCardInfo.availibleDate.dateFrom | date: 'd MMMM') + ' — ' + (roomCardInfo.availibleDate.dateTo | date: 'd MMMM')}}</a>
+                    <button (click)="toggleDropdown.emit()"  class="room-card__detail">{{dropdownIsOpened ? ('minimize' | translate) : ('details' | translate)}}</button>
+                </div>
+                <ng-template #choosingButtons>
+                    <div>
+                        <button (click)="onChooseRoom()" [disabled]="selected"  *ngIf="choosing" class="room-card__choose">{{selected ? ('selected' | translate) : ('choose' |  translate) }}</button>
+                        <button (click)="toggleDropdown.emit()"  class="room-card__detail">{{dropdownIsOpened ? ('minimize' | translate) : ('details' | translate)}}</button>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </section>
+    <aside *ngIf="dropdownIsOpened" class="room-card__dropdown">
+        <section class="room-card__preview">
+            <img (click)="openImageViewer()" class="room-card__preview_small" *ngFor="let image of roomCardInfo.gallery; let i = index" [src]="image" alt="room preview">
+        </section>
+        <section class="room-card__main_dropdown">
+            <div class="room-card__advantages_type">
+                <p class="room-card__advantages_desc">{{roomCardInfo[_language].description}}</p>
+                <div>
+                    <ng-container *ngFor="let group of roomCardInfo[_language].facilities; let i = index" >
+                        <ng-container *ngIf="group.group === 'main'">
+                            <p *ngFor="let facilitiy of group.list; let i = index" class="room-card__advantage">
+                                <img [src]="facilitiy.img" alt="">
+                                <span>{{facilitiy.desc}}</span>
+                            </p>
+                        </ng-container>
+
+                    </ng-container>
+                </div>
+            </div>
+            <ng-container *ngFor="let group of roomCardInfo[_language].facilities; let i = index" >
+                <ng-container *ngIf="group.group !== 'main'">
+                    <div class="room-card__advantages_type">
+                        <h4>{{group.group | translate}}</h4>
+                        <div>
+                            <p *ngFor="let facilitiy of group.list; let i = index" class="room-card__advantage">
+                                <img [src]="facilitiy.img" alt="">
+                                <span>{{facilitiy.desc}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </section>
+        <div class="room-card__footer">
+            <div>
+                <p class="room-card__price">{{'from' | translate}} {{currency === 'usd' ? (roomCardInfo.priceFrom[currency] | currency): (roomCardInfo.priceFrom[currency] | currency: 'RUB')}}</p>
+                <p class="room-card__duration">
+                    <span [ngSwitch]="nights">
+                        {{nights}} 
+                        <ng-template ngSwitchCase="1">{{"night" | translate}}</ng-template>
+                        <ng-template ngSwitchDefault>{{"nights" | translate}}</ng-template>
+                    </span>,
+                    <span [ngSwitch]="guests">
+                        {{guests}}
+                        <ng-template ngSwitchCase="1">{{"guest" | translate}}</ng-template>
+                        <ng-template ngSwitchDefault>{{"guestsOf" | translate}}</ng-template>
+                    </span>
+                </p>
+                <p class="room-card__occupied">Не доступен на текущую дату</p>
+            </div>
+            <div *ngIf="!choosing; else choosingButtonsDropdown">
+                <a [routerLink]="['/item', roomCardInfo.id]" [queryParams]="searchQueryParams" [ngClass]="{'room-card__available': !roomCardInfo.availible}" class="room-card__choose">{{roomCardInfo.availible ? ("tarifs" | translate) : (roomCardInfo.availibleDate.dateFrom | date: 'd MMMM') + ' — ' + (roomCardInfo.availibleDate.dateTo | date: 'd MMMM')}}</a>
+                <button (click)="toggleDropdown.emit()" class="room-card__detail">{{dropdownIsOpened ? ('minimize' | translate) : ('details' | translate)}}</button>
+            </div>
+            <ng-template #choosingButtonsDropdown>
+                <div>
+                    <button (click)="onChooseRoom()" [disabled]="selected"  *ngIf="choosing" class="room-card__choose">{{selected ? ('selected' | translate) : ('choose' |  translate) }}</button>
+                    <button (click)="toggleDropdown.emit()"  class="room-card__detail">{{dropdownIsOpened ? ('minimize' | translate) : ('details' | translate)}}</button>
+                </div>
+            </ng-template>
+        </div>
+    </aside>
+</article>

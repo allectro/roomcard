@@ -1,0 +1,592 @@
+@import "src/assets/styles/mixins.scss";
+@import "src/assets/styles/vars.scss";
+@import "src/assets/styles/fonts.scss";
+@import "src/styles.scss";
+@import '~swiper/swiper-bundle';
+
+:host {
+	&.horizontal {
+		.room-card {
+
+			& > * {
+                font-size: rem(14);
+				line-height: rem(18);
+                color: $neutral-darker;
+			}
+
+			&__container {
+				position: relative;
+				display: flex;
+				flex-direction: row;
+				padding: 0;
+                background-color: $white;
+				z-index: 2;
+			}
+
+			&__main {
+                position: relative;
+				display: flex;
+				flex-direction: column;
+				width: rem(520);
+				margin-right: auto;
+				padding: rem(62) rem(16) rem(32);
+			}
+
+			&__image {
+                object-fit: cover;
+				width: rem(380);
+				height: 100%;
+				margin: 0;
+				border-radius: rem(8);
+			}
+
+			&__advantages {
+				display: grid;
+				grid-template-columns: minmax(60px, 1fr) minmax(60px, 1fr) minmax(60px, 1fr);
+                margin-bottom: 0;
+
+				p:nth-last-of-type(-n + 3) {
+					margin-bottom: 0;
+				}
+
+				.room-card__detail {
+					display: block;
+				}
+
+				p {
+					display: -webkit-box;
+				}
+			}
+			&__text {
+                grid-row: 1/1;
+                grid-column: 1/-1;
+				margin: 0;
+                row-gap: 32px;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 3;
+				overflow: hidden;
+				visibility: visible;
+
+				&.opened {
+					-webkit-line-clamp: unset;
+				}
+			}
+
+			&__advantage {
+				width: rem(180);
+				margin: 0;
+
+				img {
+                    display: flex;
+					width: rem(18);
+					height: rem(18);
+					margin-right: rem(8);
+				}
+			}
+
+			&__info-wrap {
+				display: flex;
+				flex-grow: 2;
+			}
+
+			&__footer {
+                justify-content: space-between;
+				padding: rem(24) rem(16) rem(32);
+
+				& div {
+                    display: flex;
+					flex-wrap: wrap;
+					flex-direction: column;
+					justify-content: space-between;
+				}
+
+				& div :nth-child(3) {
+					display: none;
+				}
+			}
+			&__price {
+				width: 100%;
+                margin: 0;
+				margin-bottom: rem(16);
+				font-family: $golos;
+                font-size: rem(16);
+				line-height: rem(20);
+                letter-spacing: rem(-0.1);
+				font-weight: 700;
+				text-align: start;
+				color: $neutral-darkest;
+			}
+
+			&__duration {
+                width: 100%;
+				margin: 0;
+				font-family: $golos;
+				color: $neutral-dark;
+				text-align: start;
+			}
+
+			&__choose:not(.room-card__available) {
+				@extend .button;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: rem(164);
+                margin-right: 0;
+                margin-bottom: rem(16);
+                padding: rem(12);
+                font-size: rem(14);
+                line-height: rem(16);
+                font-weight: 400;
+                box-shadow: none;
+				box-sizing: border-box;
+			}
+
+			&__choose {
+				&.room-card__available {
+					width: rem(164);
+					margin-right: 0;
+					margin-bottom: rem(16);
+					padding: rem(8) rem(24);
+					font-size: rem(14);
+					line-height: rem(16);
+					font-weight: 400;
+					box-shadow: none;
+				}
+			}
+
+			&__detail {
+				@extend .button;
+				@extend .button_white;
+                width: rem(164);
+				margin: 0;
+                padding: rem(8) rem(24);
+                font-size: rem(14);
+				font-family: $golos;
+				line-height: rem(18);
+                text-align: center;
+                color: $primary;
+                box-shadow: none;
+				box-sizing: border-box;
+			}
+
+			&__dropdown {
+				position: static;
+				display: flex;
+                flex-direction: row;
+				margin-top: rem(-16);
+                padding: rem(48) rem(20) rem(18);
+                background-color: $neutral-lighter;
+				box-shadow: rem(0) rem(0) rem(16) rgba(221, 235, 233, 0.5), rem(0) rem(16) rem(16) rem(-8) rgba(221, 235, 233, 0.5), inset rem(0) rem(-1) rem(0) $neutral-light;
+				border-radius: rem(12);
+				z-index: 1;
+
+				.room-card__footer {
+					display: none;
+				}
+
+			}
+
+			&__preview {
+				display: flex;
+				flex-wrap: wrap;
+				flex-shrink: 0;
+				flex-basis: rem(380);
+				align-content: flex-start;
+
+				:nth-child(1) {
+					box-shadow: rem(0) rem(12) rem(12) rem(-8) rgba(108, 128, 126, 0.25), inset rem(0) rem(-1) rem(0) $primary;
+					filter: drop-shadow(rem(0) rem(0) rem(12) rgba(108, 128, 126, 0.25));
+					border-radius: rem(12);
+				}
+
+				&_small {
+                    width: rem(113);
+					height: rem(80);
+					object-fit: cover;
+					margin-right: rem(11);
+					margin-bottom: rem(16);
+					border-radius: rem(8);
+					cursor: pointer;
+				}
+			}
+
+			&__main_dropdown {
+                display: grid;
+                row-gap: rem(26);
+
+				div:last-of-type {
+					margin-bottom: 0;
+				}
+			}
+
+			&__advantages_type {
+				display: flex;
+				flex-direction: column;
+				margin-bottom: 0;
+
+                .room-card__advantage {
+                    width: auto;
+                    margin: 0;
+                }
+
+				h4 {
+					margin: 0;
+					margin-bottom: rem(18);
+					font-family: $golos;
+					font-style: normal;
+					font-size: rem(16);
+					line-height: rem(20);
+					letter-spacing: rem(-0.1);
+                    font-weight: bold;
+					color: $neutral-darkest;
+				}
+
+				div {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1fr 1fr;
+                    row-gap: rem(16);
+				}
+
+				.room-card__choose {
+					display: none;
+				}
+
+				.room-card__detail {
+					display: none;
+				}
+			}
+
+			&__advantages_desc {
+				display: none;
+			}
+
+			&__gallery {
+				width: rem(380);
+				margin-bottom: 0;
+				flex-shrink: 0;
+			}
+
+			&__zoom {
+				left: 50%;
+				transform: translate(-50%, -50%);
+				text-indent: -9999px;
+			}
+
+			::ng-deep {
+				swiper {
+					.swiper-button-next {
+						left: auto!important;
+						right: rem(13)!important;
+					}
+
+					.swiper-container {
+						height: auto;
+					}
+				}
+			}
+		}
+	}
+}
+
+.room-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+
+	&.opened {
+		z-index: 998;
+	}
+
+	::ng-deep {
+		swiper {
+			display: flex;
+			width: 100%;
+
+			.swiper-container {
+				height: rem(192);
+			}
+
+			.swiper-button-prev,
+			.swiper-button-next {
+				width: rem(28);
+                height: rem(28);
+                transform: translateY(50%);
+                text-indent: -9999px;
+			}
+
+			.swiper-button-prev {
+                left: rem(13)!important;
+				right: auto!important;
+                background-image: url("../../../../assets/icons/icon-arrow-left.svg");
+                background-repeat: none;
+			}
+
+			.swiper-button-next {
+				left: calc(83.33% + 18px)!important;
+				right: auto!important;
+                background-image: url("../../../../assets/icons/icon-arrow-right.svg");
+                background-repeat: none;
+			}
+
+		}
+	}
+
+	&__container {
+		position: relative;
+        z-index: 10;
+        padding: rem(62) rem(16) rem(24);
+		background-color: $neutral-lightest;
+		border-radius: rem(12);
+		box-shadow: rem(0) rem(0) rem(16) rgba(221, 235, 233, 0.5), rem(0) rem(16) rem(16) rem(-8) rgba(221, 235, 233, 0.5), inset rem(0) rem(-1) rem(0) $neutral-light;
+
+		&.opened {
+			z-index: 991;
+		}
+
+        @include below($tablet) {
+
+            &.opened {
+                padding-bottom: rem(84);
+            }
+        }
+
+        @include below($mobile) {
+
+            &.opened {
+                padding-bottom: rem(24);
+            }
+        }
+    }
+
+	&__main {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__title {
+		position: absolute;
+		top: rem(24);
+		margin: 0;
+		font-family: $golos;
+		font-size: rem(24);
+		line-height: rem(30);
+		letter-spacing: rem(-0.25);
+        font-weight: bold;
+		color: $primary;
+	}
+
+	&__gallery {
+		position: relative;
+		display: flex;
+		width: calc(100% + 16px);
+		margin-bottom: rem(16);
+	}
+
+	&__image {
+        object-fit: cover;
+		width: 100%;
+		height: rem(192);
+		box-shadow: rem(0) rem(16) rem(16) rem(-8) rgba(221, 235, 233, 0.5), inset rem(0) rem(-1) rem(0) $neutral-light;
+		filter: drop-shadow(rem(0) rem(0) rem(16) rgba(221, 235, 233, 0.5));
+        border-radius: rem(8);
+	}
+
+	&__zoom {
+		position: absolute;
+		left: calc(41.666% + 12px);
+		top: 50%;
+		transform: translateY(-50%);
+        width: rem(24);
+        height: rem(24);
+		z-index: 2;
+		cursor: pointer;
+        border: none;
+        background-color: transparent;
+        text-indent: -9999px;
+        background-image: url("../../../../assets/icons/icon-zoom-in.svg");
+        background-repeat: no-repeat;
+	}
+
+	&__text {
+		display: none;
+	}
+
+	&__advantages {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: rem(16);
+        column-gap: rem(16);
+        margin-bottom: rem(16);
+
+        @include below($mobile-small) {
+            grid-template-columns: 1fr;
+        }
+
+		.room-card__detail {
+			display: none;
+		}
+	}
+
+	&__advantage {
+		display: flex;
+		align-content: flex-start;
+		margin: 0;
+	}
+
+	&__advantages p:not(:nth-of-type(-n + 5)) {
+		display: none;
+	}
+
+	&__advantage img {
+		width: rem(18);
+		height: rem(18);
+		margin-right: rem(8);
+	}
+
+	&__footer {
+		display: flex;
+		flex-direction: column;
+
+		div {
+			display: flex;
+			align-items: flex-start;
+		}
+
+		div:nth-child(1) {
+			margin-bottom: rem(16);
+			align-items: center;
+		}
+	}
+
+	&__price {
+		margin: 0;
+		margin-right: rem(16);
+		font-family: $golos;
+		font-size: rem(16);
+		line-height: rem(20);
+		letter-spacing: rem(-0.1);
+        font-weight: 700;
+		color: $neutral-darkest;
+	}
+
+	&__duration {
+		margin: 0;
+		font-family: $golos;
+		color: $neutral-dark;
+	}
+    &__occupied {
+        display: none;
+		margin: 0;
+		font-family: $golos;
+		font-size: rem(16);
+		line-height: rem(20);
+		letter-spacing: rem(-0.1);
+        font-weight: 700;
+		color: $neutral-darkest;
+    }
+
+	&__choose {
+		@extend .button;
+		width: 50%;
+        margin-right: rem(8);
+        padding: rem(8) rem(16);
+		font-size: rem(14);
+		line-height: rem(16);
+		font-weight: 400;
+        box-shadow: none;
+		text-decoration: none;
+	}
+    &__available{
+        @extend .button;
+		width: 100%;
+		padding: rem(8) 0;
+		font-size: rem(14);
+		line-height: rem(16);
+		font-weight: 400;
+        color: $primary;
+        background-color: $neutral-lightest;
+        border: rem(2) solid $primary;
+        box-sizing: border-box;
+        border-radius: rem(8);
+        box-shadow: none;
+    }
+	&__detail {
+		@extend .button;
+		@extend .button_white;
+		width: 50%;
+		margin: 0;
+		padding: rem(8) 0;
+		font-family: $golos;
+		font-size: rem(14);
+		line-height: rem(16);
+		color: $primary;
+        background-color: transparent;
+        box-shadow: none;
+        z-index: 100;
+	}
+
+	&__dropdown {
+		position: absolute;
+		top: 100%;
+		display: flex;
+		flex-direction: column;
+		margin-top: rem(-16);
+		padding: rem(48) rem(16) rem(24);
+        background-color: $neutral-lighter;
+		box-shadow: rem(0) rem(0) rem(16) rgba(221, 235, 233, 0.5), rem(0) rem(16) rem(16) rem(-8) rgba(221, 235, 233, 0.5), inset rem(0) rem(-1) rem(0) $neutral-light;
+        border-radius: rem(12);
+		z-index: 990;
+
+        @include below($tablet) {
+            width: calc(100vw - 46px);
+        }
+
+        @include below($mobile) {
+			position: static;
+            width: 100%;
+        }
+	}
+
+    &__main_dropdown {
+        display: grid;
+        row-gap: rem(26);
+        margin-bottom: rem(16);
+    }
+
+	&__preview {
+		display: none;
+	}
+
+	&__advantages_type {
+
+		h4 {
+			margin: 0;
+			margin-bottom: rem(16);
+			font-family: $golos;
+			font-style: normal;
+			font-size: rem(16);
+			line-height: rem(20);
+			letter-spacing: rem(-0.1);
+            font-weight: bold;
+			color: $neutral-darkest;
+		}
+
+		div {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            row-gap: rem(16);
+		}
+	}
+
+	&__advantages_desc {
+		margin: 0;
+		margin-bottom: rem(16);
+        color: $neutral-darkest;
+	}
+
+	&>* {
+		font-size: rem(14);
+		line-height: rem(18);
+        color: $neutral-darker;
+	}
+}
